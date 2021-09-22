@@ -21,8 +21,13 @@ fn parse_gosum_line(data: &str) -> Result<String, MyError> {
     return Ok(out);
 }
 
-fn quote(data: &str) -> &str {
-    return data;
+fn quote(data: &str) -> String {
+    let mut out = String::from("\"");
+
+    out.push_str(data);
+    out.push_str(&"\"");
+
+    return out;
 }
 
 fn main() -> io::Result<()> {
