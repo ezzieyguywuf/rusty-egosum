@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 enum MyError {
     InputTooShort,
     InputNotGoSumString
@@ -22,6 +22,18 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn err_on_too_short() {
+        assert_eq!(parse_gosum_line("abc").unwrap_err(), MyError::InputTooShort);
+    }
+
+    #[test]
+    fn ok_on_long_enough() {
+        assert!(parse_gosum_line("abc cde").is_ok());
+        assert!(parse_gosum_line("abc cde fgh").is_ok());
+        assert!(parse_gosum_line("abc cde fgh\t\tijk").is_ok());
+    }
 
     #[test]
     fn parse_valid_string() {
