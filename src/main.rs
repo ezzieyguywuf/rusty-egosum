@@ -21,6 +21,10 @@ fn parse_gosum_line(data: &str) -> Result<String, MyError> {
     return Ok(out);
 }
 
+fn quote(data: &str) -> &str {
+    return data;
+}
+
 fn main() -> io::Result<()> {
     let res = fs::read_to_string("go.sum");
 
@@ -73,8 +77,15 @@ mod tests {
     #[test]
     fn parse_valid_string() {
         let parsed = parse_gosum_line("github.com/dlclark/regexp2 v1.4.0/go.mod h1:2pZnwuY/m+8K6iRw6wQdMtk+rH5tNGR1i55kozfMjCc=");
-        let check  = "\"github.com/dlclark/regexp2 v1.4.0/go.mod\"";
+        let check  = "github.com/dlclark/regexp2 v1.4.0/go.mod";
 
         assert_eq!(parsed.unwrap(), check);
+    }
+
+    #[test]
+    fn wrap_in_quotes() {
+        assert_eq!(quote("test"), "\"test\"");
+        assert_eq!(quote("test abc def"), "\"test abc def\"");
+        assert_eq!(quote("test\t\t foobar^&"), "\"test\t\t foobar^&\"");
     }
 }
