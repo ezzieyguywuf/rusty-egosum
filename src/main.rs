@@ -6,7 +6,6 @@ enum MyError {
 
 fn parse_gosum_line(data: &str) -> Result<String, MyError> {
     let vals: Vec<&str> = data.split_whitespace().collect();
-    let out: String = vals.join(&" ");
 
     println!("The length for {} is {}", data, vals.len());
 
@@ -16,6 +15,8 @@ fn parse_gosum_line(data: &str) -> Result<String, MyError> {
         return Err(MyError::InputTooLong);
     }
     
+    let out: String = vals[..2].join(&" ");
+
     return Ok(out);
 }
 
@@ -46,7 +47,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn parse_valid_string() {
         let parsed = parse_gosum_line("github.com/dlclark/regexp2 v1.4.0/go.mod h1:2pZnwuY/m+8K6iRw6wQdMtk+rH5tNGR1i55kozfMjCc=");
         let check  = "github.com/dlclark/regexp2 v1.4.0/go.mod";
