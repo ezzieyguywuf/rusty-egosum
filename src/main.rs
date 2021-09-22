@@ -1,7 +1,7 @@
 #[derive(Debug, PartialEq)]
 enum MyError {
     InputTooShort,
-    InputNotGoSumString
+    InputTooLong
 }
 
 fn parse_gosum_line(data: &str) -> Result<String, MyError> {
@@ -32,7 +32,13 @@ mod tests {
     fn ok_on_long_enough() {
         assert!(parse_gosum_line("abc cde").is_ok());
         assert!(parse_gosum_line("abc cde fgh").is_ok());
-        assert!(parse_gosum_line("abc cde fgh\t\tijk").is_ok());
+    }
+
+    #[test]
+    // Per https://golang.org/ref/mod#go-sum-files , should only contain 3 sections
+    fn err_on_too_long() {
+        assert_eq!(parse_gosum_line("abc cde fgh\t\thijk").expect_err("Failed to error on input that is too long"),
+                MyError::InputTooLong);
     }
 
     #[test]
