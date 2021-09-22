@@ -15,6 +15,18 @@ cat go.sum | cut -d" " -f1,2 | awk '{print "\t\"" $0 "\""}'
 While writing this in rust is admittedly way overkill, I am using this as an
 oportunity to get more familiar with the language.
 
+Usage
+-----
+
+Since it is replacing such a simple bash one-liner, the usage is rather
+straightforward:
+
+```sh
+git clone https://github.com/ezzieyguywuf/rusty-egosum
+# get a go.sum from somwhere, e.g. wget https://raw.githubusercontent.com/wakatime/wakatime-cli/v1.26.1/go.sum
+cargo run
+```
+
 TODO
 ----
 
