@@ -1,3 +1,5 @@
+[![Cargo test suite](https://github.com/ezzieyguywuf/rusty-egosum/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/ezzieyguywuf/rusty-egosum/actions/workflows/unit-tests.yml)
+
 This is a small project to generate a valid `EGO_SUM` variable for use in gentoo
 ebuild's which utilize the [go-module eclass][1].
 
