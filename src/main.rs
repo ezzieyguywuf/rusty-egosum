@@ -4,8 +4,15 @@ enum MyError {
     InputNotGoSumString
 }
 
-fn parse_gosum_line(_: &str) -> Result<&str, MyError> {
-    return Err(MyError::InputTooShort);
+fn parse_gosum_line(data: &str) -> Result<String, MyError> {
+    let vals: Vec<&str> = data.split_whitespace().take(2).collect();
+    let out: String = vals.join(&" ");
+
+    if vals.len() < 2 {
+        return Err(MyError::InputTooShort);
+    }
+
+    return Ok(out);
 }
 
 fn main() {
