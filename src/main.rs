@@ -1,5 +1,5 @@
-fn parse_gosum_line(_: &str) -> &str {
-    return "";
+fn parse_gosum_line(_: &str) -> Option<&str> {
+    return Some("");
 }
 
 fn main() {
@@ -15,6 +15,6 @@ mod tests {
         let parsed = parse_gosum_line("github.com/dlclark/regexp2 v1.4.0/go.mod h1:2pZnwuY/m+8K6iRw6wQdMtk+rH5tNGR1i55kozfMjCc=");
         let check  = "github.com/dlclark/regexp2 v1.4.0/go.mod";
 
-        assert_eq!(parsed, check);
+        assert_eq!(parsed.unwrap(), check);
     }
 }
