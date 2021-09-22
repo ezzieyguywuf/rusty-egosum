@@ -1,3 +1,6 @@
+use std::io;
+use std::fs;
+
 #[derive(Debug, PartialEq)]
 enum MyError {
     InputTooShort,
@@ -6,8 +9,6 @@ enum MyError {
 
 fn parse_gosum_line(data: &str) -> Result<String, MyError> {
     let vals: Vec<&str> = data.split_whitespace().collect();
-
-    println!("The length for {} is {}", data, vals.len());
 
     if vals.len() < 2 {
         return Err(MyError::InputTooShort);
@@ -20,8 +21,31 @@ fn parse_gosum_line(data: &str) -> Result<String, MyError> {
     return Ok(out);
 }
 
-fn main() {
-    println!("Hello, world!");
+fn main() -> io::Result<()> {
+    let res = fs::read_to_string("go.sum");
+
+    match res {
+        Ok(data) => {
+            let out = 
+                    data
+                    .lines()
+                    .map(|line| {
+                        let parsed = parse_gosum_line(line).unwrap_or_default();
+                        let mut out = String::from("\"");
+
+                        out.push_str(&parsed);
+                        out.push_str(&"\"");
+
+                        out
+                    })
+                    .collect::<Vec<String>>()
+                    .join("\n");
+            println!("{}", out);
+        }
+        Err(_) => println!("Could not find go.sum in the current directory. Bailing out.")
+    }
+
+    Ok(())
 }
 
 #[cfg(test)]
