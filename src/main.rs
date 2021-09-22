@@ -1,5 +1,11 @@
-fn parse_gosum_line(_: &str) -> Option<&str> {
-    return Some("");
+#[derive(Debug)]
+enum MyError {
+    InputTooShort,
+    InputNotGoSumString
+}
+
+fn parse_gosum_line(_: &str) -> Result<&str, MyError> {
+    return Err(MyError::InputTooShort);
 }
 
 fn main() {
