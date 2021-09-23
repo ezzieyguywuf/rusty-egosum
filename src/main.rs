@@ -16,18 +16,18 @@ fn parse_gosum_line(data: &str) -> Result<String, MyError> {
         return Err(MyError::InputTooLong);
     }
     
-    let out: String = vals[..2].join(&" ");
+    let out: String = vals[..2].join(" ");
 
-    return Ok(out);
+    Ok(out)
 }
 
 fn quote(data: &str) -> String {
     let mut out = String::from("\"");
 
     out.push_str(data);
-    out.push_str(&"\"");
+    out.push('"');
 
-    return out;
+    out
 }
 
 fn main() -> io::Result<()> {
@@ -40,12 +40,8 @@ fn main() -> io::Result<()> {
                     .lines()
                     .map(|line| {
                         let parsed = parse_gosum_line(line).unwrap_or_default();
-                        let mut out = String::from("\"");
 
-                        out.push_str(&parsed);
-                        out.push_str(&"\"");
-
-                        out
+                        quote(&parsed)
                     })
                     .collect::<Vec<String>>()
                     .join("\n");
