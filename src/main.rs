@@ -59,7 +59,10 @@ mod tests {
 
     #[test]
     fn err_on_too_short() {
-        assert_eq!(parse_gosum_line("abc").unwrap_err(), MyError::InputTooShort);
+        match parse_gosum_line("abc") {
+            Ok(_) => panic!("Expected InputTooShort"),
+            Err(err) => assert_eq!(err, MyError::InputTooShort)
+        }
     }
 
     #[test]
@@ -71,8 +74,10 @@ mod tests {
     #[test]
     // Per https://golang.org/ref/mod#go-sum-files , should only contain 3 sections
     fn err_on_too_long() {
-        assert_eq!(parse_gosum_line("abc cde fgh\t\thijk").expect_err("Failed to error on input that is too long"),
-                MyError::InputTooLong);
+        match parse_gosum_line("abc cde fgh\t\tijk") {
+            Ok(_) => panic!("Failed to error on input that is too long"),
+            Err(err) => assert_eq!(err, MyError::InputTooLong)
+        }
     }
 
     #[test]
